@@ -1,51 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tetris</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <script src="main.js" charset UTF-8></script>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="UTF-8">
+        <script src="main.js" charset="UTF-8"></script>
+        <link rel="stylesheet" href="style.css"></link>
+        <title>Tetris</title>
+    </head>
 
-</head>
+    <body>
 
-<body>
+    
+    <h3>Score:<span id="score">0</span></h3>
 
     <button>Start</button>
-
-    <div class="espaçamento"></div>
-
-    <h1 class="score-display">0</h1>
-    <h1 class="lines-display">0</h1>
     
     <div class="espaçamento"></div>
     
-    <div class="previous-shape">
-        <div class="previous-grid">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
+    <div class="mini-grid">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
     </div>
 
     <div class="espaçamento"></div>
     
-    <div class="game">
+    <div class="container">
         <div class="grid">
             <div></div>
             <div></div>
@@ -247,19 +237,18 @@
             <div></div>
             <div></div>
             <div></div>
-            <div class="block3"></div>
-            <div class="block3"></div>
-            <div class="block3"></div>
-            <div class="block3"></div>
-            <div class="block3"></div>
-            <div class="block3"></div>
-            <div class="block3"></div>
-            <div class="block3"></div>
-            <div class="block3"></div>
-            <div class="block3"></div>
+            <div class="taken"></div>
+            <div class="taken"></div>
+            <div class="taken"></div>
+            <div class="taken"></div>
+            <div class="taken"></div>
+            <div class="taken"></div>
+            <div class="taken"></div>
+            <div class="taken"></div>
+            <div class="taken"></div>
+            <div class="taken"></div>
         </div>
     </div>
-    <script src="main.js" type="module"></script>
 </body>
 </html>>
 

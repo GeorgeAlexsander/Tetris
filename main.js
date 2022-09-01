@@ -1,16 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
     const startBtn = document.querySelector('button')
     const grid = document.querySelector('.grid')
-    const scoreDisplay = document.querySelector('.score-display')
-    const linesDisplay = document.querySelector('.lines-display')
-    const displaySquares = document.querySelectorAll('.previous-grid div')
-    let squares = Array.from(grid.querySelectorAll('div'))
+    const scoreDisplay = document.querySelector('#score')
+    let squares = Array.from(grid.querySelectorAll('.grid div'))
     const width = 10
-    const height = 20
     let timerID
     let score = 0
-    let lines = 0
-    //ascII value of key
+
+//ascII value of key
     const KeyLeft = 37
     const KeyUp = 38
     const KeyRight = 39
@@ -30,6 +27,15 @@ function control(e){
 }
 
 document.addEventListener('keyup', control)
+
+// Possíveis cores dos tetrominos
+const colors = [
+    'orange',
+    'red',
+    'purple',
+    'green',
+    'blue'
+  ]
 
 // Declaração dos tetromino básicos (Straight, Square, T, L, Z)
 const L_Tetromino = [
@@ -79,16 +85,18 @@ let current = Tetrominoes[random][currentRotation]
 
 //Desenhar o Tetromino
 function draw(){
-    current.forEach( index => (
-        squares[currentPosition + index].classList.add('block')      
-    ))
+    current.forEach( index => {
+        squares[currentPosition + index].classList.add('tetromino')    
+        squares[currentPosition + index].style.backgroundColor = colors[random]  
+    })
 }
 
 //Apagar o Tetromino
 function undraw(){
-    current.forEach( index => (
-        squares[currentPosition + index].classList.remove('block')
-    ))
+    current.forEach( index => {
+        squares[currentPosition + index].classList.remove('tetromino')
+        squares[currentPosition + index].style.backgroundColor = ''
+    })
 }
 
 //Mover o Tetromino
@@ -103,7 +111,7 @@ function moveRight(){
     undraw()
     const isAtRightEdge = current.some(index => (currentPosition+index) % width === width -1)
     if(!isAtRightEdge) currentPosition += 1
-    if(current.some(index => squares[currentPosition+index].classList.contains('block2')))
+    if(current.some(index => squares[currentPosition+index].classList.contains('taken')))
     {
         currentPosition -=1
     }
@@ -114,11 +122,33 @@ function moveLeft(){
     undraw()
     const isAtLeftEdge = current.some(index => (currentPosition+index) % width === 0)
     if(!isAtLeftEdge) currentPosition -= 1
-    if(current.some(index => squares[currentPosition+index].classList.contains('block2')))
+    if(current.some(index => squares[currentPosition+index].classList.contains('taken')))
     {
         currentPosition +=1
     }
     draw()
+}
+
+function isAtRight() {
+    return current.some(index=> (currentPosition + index + 1) % width === 0);  
+}
+function isAtLeft() {
+    return current.some(index=> (currentPosition + index) % width === 0);
+}
+function checkRotatedPosition(P){
+    P = P || currentPosition;        
+    if ((P+1) % width < 4) {         
+        if (isAtRight()){            
+            currentPosition += 1;    
+            checkRotatedPosition(P); 
+        }
+    }
+    else if (P % width > 5) {
+        if (isAtLeft()){
+            currentPosition -= 1;
+            checkRotatedPosition(P);
+        }
+    }
 }
 
 //Rodar Tetromino
@@ -129,13 +159,16 @@ function rotate(){
         currentRotation = 0
     }
     current = Tetrominoes[random][currentRotation]
+    checkRotatedPosition()
     draw () 
 }
 
 //Mostrar o tetromino anterior
+const displaySquares = document.querySelectorAll('.mini-grid div')
 const displayWidth = 4
 const displayIndex = 0
 let nextRandom = 0
+
 const smallTetrominoes = [
     [1, displayWidth+1, displayWidth*2+1, 2], /* L_Tetromino */
     [0, displayWidth, displayWidth+1, displayWidth*2+1 ], /* Z_Tetromino */
@@ -146,17 +179,19 @@ const smallTetrominoes = [
 
 function displayShape() {
     displaySquares.forEach(square => {
-        square.classList.remove('block') 
+        square.classList.remove('tetromino') 
+        square.style.backgroundColor = ''
     })
+
     smallTetrominoes[nextRandom].forEach( index => {
-        displaySquares[displayIndex + index].classList.add('block')
+        displaySquares[displayIndex + index].classList.add('tetromino')
+        displaySquares[displayIndex + index].style.backgroundColor = colors[nextRandom]
     })
 }
 
 function freeze() {
-    if(current.some(index => squares[currentPosition + index + width].classList.contains('block3')
-    || squares[currentPosition+index+width].classList.contains('block2'))){
-        current.forEach(index => squares[currentPosition+index].classList.add('block2'))
+    if(current.some(index => squares[currentPosition + index + width].classList.contains('taken'))){
+        current.forEach(index => squares[currentPosition+index].classList.add('taken'))
 
         random = nextRandom
         nextRandom = Math.floor(Math.random()*Tetrominoes.length)
@@ -180,10 +215,10 @@ startBtn.addEventListener('click', () => {
         displayShape()
     }
 })
-
 function gameOver(){
-    if(current.some(index => squares[currentPosition+index].classList.contains('block2'))) {
-        scoreDisplay.innerHTML = 'End'
+
+    if(current.some(index => squares[currentPosition+index].classList.contains('taken'))) {
+        scoreDisplay.innerHTML = 'Game over, you score is ' + score
         clearInterval(timerID)
     }
 
@@ -192,17 +227,17 @@ function gameOver(){
 function addScore(){
     for (let i = 0; i < 199; i +=width) {
         const row = [i, i+1, i+2, i+3, i+4, i+5, i+6, i+7, i+8, i+9]
-    if(row.every(index => squares[index].classList.contains('taken'))) {
+    
+        if(row.every(index => squares[index].classList.contains('taken'))) {
         score +=10
-        lines +=1
         scoreDisplay.innerHTML = score
-        linesDisplay.innerHTML = lines
 
         row.forEach(index => {
-            squares[index].classList.remove('block2')
-            squares[index].classList.remove('block')
+            squares[index].classList.remove('taken')
+            squares[index].classList.remove('tetromino')
             squares[index].style.backgroundColor = ''
         })
+
         const squaresRemoved = squares.splice(i, width)
         squares = squaresRemoved.concat(squares)
         squares.forEach(cell => grid.appendChild(cell))
