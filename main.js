@@ -218,7 +218,7 @@ startBtn.addEventListener('click', () => {
 function gameOver(){
 
     if(current.some(index => squares[currentPosition+index].classList.contains('taken'))) {
-        scoreDisplay.innerHTML = 'Game over, you score is ' + score
+        scoreDisplay.innerHTML = ' Game over, you score is ' + score
         clearInterval(timerID)
     }
 
