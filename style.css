@@ -1,12 +1,37 @@
 .container {
     display: flex;
+    justify-content: center;
   }
 
+body {
+    background-image: linear-gradient(to bottom right, rgb(3, 2, 10), rgb(89,57,166));
+}
+
+.horizontal-center {
+    text-align: center;  
+}
+  
+h3 {
+    color: whitesmoke;
+}
+
+#startBtn {
+    background-color: white; 
+    color: black; 
+    border: 2px solid rgb(106, 34, 184);
+    transition-duration: 0.4s;
+  }
+  
+#startBtn:hover {
+    background-color: rgb(106, 34, 184);
+    color: white;
+}
+  
 .espaçamento{
-    background-color: white;
     height: 20px;
     width: 20px;
 }
+
 .grid {
     background-color: rgb(38,58,62);
     height: 400px;
@@ -14,16 +39,18 @@
     display: flex;
     flex-wrap: wrap;
     border-radius:5px;
+    border: 3px solid rgb(106, 34, 184);
 }
 
 .grid div {    
     height: 20px;
     width: 20px;
     border-radius:4px;
+    box-shadow: -1px -1px 2px black;
 }
 
 .tetromino {
-    
+    box-shadow: -1px -1px 2px black;
     background-color: blue;
 }
 
@@ -36,10 +63,12 @@
     flex-wrap: wrap;
     background-color: rgb(38,58,62);
     border-radius:4px;
+    border: 3px solid rgb(106, 34, 184);
 }
   
 .mini-grid div {
     height: 20px;
     width: 20px;
     border-radius:4px;
+    box-shadow: -1px -1px 2px black;
 }

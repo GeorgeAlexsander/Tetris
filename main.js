@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const startBtn = document.querySelector('button')
+    const startBtn = document.getElementById("startBtn");
     const grid = document.querySelector('.grid')
     const scoreDisplay = document.querySelector('#score')
     let squares = Array.from(grid.querySelectorAll('.grid div'))
@@ -8,11 +8,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let score = 0
 
 //ascII value of key
+    const KeySpace = 32
     const KeyLeft = 37
     const KeyUp = 38
     const KeyRight = 39
     const KeyDown = 40
-
 //Declarando as teclas de controle
 function control(e){
     if(e.keyCode === KeyLeft){
@@ -23,6 +23,8 @@ function control(e){
         moveDown()
     } else if(e.keyCode === KeyUp){
         rotate()
+    }
+    else if(e.keyCode === KeySpace){
     }
 }
 
@@ -208,18 +210,20 @@ startBtn.addEventListener('click', () => {
     if(timerID) {
         clearInterval(timerID)
         timerID=null
+        startBtn.value= "Start";
     } else {
+        startBtn.value= "Pause";        
         draw()
         timerID=setInterval(moveDown, 1000)
         nextRandom=Math.floor(Math.random()*Tetrominoes.length)
         displayShape()
     }
 })
-function gameOver(){
 
+function gameOver(){
     if(current.some(index => squares[currentPosition+index].classList.contains('taken'))) {
         scoreDisplay.innerHTML = ' Game over, you score is ' + score
-        clearInterval(timerID)
+        clearInterval(timerID);
     }
 
 }
