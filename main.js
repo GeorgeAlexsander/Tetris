@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const startBtn = document.getElementById("startBtn");
+    const gameOverImg= document.getElementById("gameOverImg");
     const grid = document.querySelector('.grid')
     const scoreDisplay = document.querySelector('#score')
     let squares = Array.from(grid.querySelectorAll('.grid div'))
@@ -7,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let timerID
     let score=0
     let gameOverStatus = false;
+    gameOverImg.style.opacity=0;
 
     //ascII value of key
     const KeySpace = 32
@@ -230,6 +232,7 @@ function restartGame() {
         score = 0
         scoreDisplay.innerHTML = score
     }    
+    gameOverImg.style.opacity=0;
     nextRandom = Math.floor(Math.random()*Tetrominoes.length)
     current = Tetrominoes[random][currentRotation]
 }
@@ -285,9 +288,9 @@ function gameOver(){
     if(current.some(index => squares[currentPosition+index].classList.contains('taken'))) {
         checkHighScore()
         clearInterval(timerID);
-        console.log("GameOver");
         startBtn.value = "Start";
         gameOverStatus = true;
+        gameOverImg.style.opacity=1;
     }
 }
 
