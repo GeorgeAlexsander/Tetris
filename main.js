@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const KeyDown = 40
 //Declarando as teclas de controle
 function control(e){
-    if(timerID != null){
+    if(timerID != null & !gameOverStatus){
         if(e.keyCode === KeyLeft){
             moveLeft()
         } else if(e.keyCode === KeyRight){
@@ -232,6 +232,7 @@ function restartGame() {
         score = 0
         scoreDisplay.innerHTML = score
     }    
+    gameOverStatus=false;
     gameOverImg.style.opacity=0;
     nextRandom = Math.floor(Math.random()*Tetrominoes.length)
     current = Tetrominoes[random][currentRotation]
