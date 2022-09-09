@@ -5,9 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let squares = Array.from(grid.querySelectorAll('.grid div'))
     const width = 10
     let timerID
-    let score = 0
+    let score=0
 
-//ascII value of key
+    //ascII value of key
     const KeySpace = 32
     const KeyLeft = 37
     const KeyUp = 38
@@ -15,16 +15,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const KeyDown = 40
 //Declarando as teclas de controle
 function control(e){
-    if(e.keyCode === KeyLeft){
-        moveLeft()
-    } else if(e.keyCode === KeyRight){
-        moveRight()
-    } else if(e.keyCode === KeyDown){ 
-        moveDown()
-    } else if(e.keyCode === KeyUp){
-        rotate()
-    }
-    else if(e.keyCode === KeySpace){
+    if(timerID != null){
+        if(e.keyCode === KeyLeft){
+            moveLeft()
+        } else if(e.keyCode === KeyRight){
+            moveRight()
+        } else if(e.keyCode === KeyDown){ 
+            moveDown()
+        } else if(e.keyCode === KeyUp){
+            rotate()
+        }
     }
 }
 
@@ -206,24 +206,56 @@ function freeze() {
     }
 }
 
+function pauseGame() {
+    clearInterval(timerID);
+    timerID = null;
+    startBtn.value = "Start";
+    startBtn.blur(); //não manter o foco no botão após clique
+}
+
+function StartGame() {
+    startBtn.value= "Pause";        
+    draw()
+    timerID=setInterval(moveDown, 1000)
+    nextRandom=Math.floor(Math.random()*Tetrominoes.length)
+    displayShape()
+    startBtn.blur();
+}
+
 startBtn.addEventListener('click', () => {
     if(timerID) {
-        clearInterval(timerID)
-        timerID=null
-        startBtn.value= "Start";
+        pauseGame();
     } else {
-        startBtn.value= "Pause";        
-        draw()
-        timerID=setInterval(moveDown, 1000)
-        nextRandom=Math.floor(Math.random()*Tetrominoes.length)
-        displayShape()
+        StartGame();
     }
 })
 
+function showHighScores() {
+    const highScores = JSON.parse(localStorage.getItem('highScores')) || [];
+    const highScoreDisplay = document.querySelector('#highScores');
+  
+    highScoreDisplay.innerHTML = highScores
+}
+  
+  function saveHighScore() {  
+    localStorage.setItem('highScores', JSON.stringify(score));
+}
+
+  function checkHighScore() {
+    const highScores = JSON.parse(localStorage.getItem('highScores')) || [];
+  
+    if (score > highScores) {
+      const newScore = score;
+      saveHighScore(newScore, highScores);
+      showHighScores();
+    }
+}  
+
 function gameOver(){
     if(current.some(index => squares[currentPosition+index].classList.contains('taken'))) {
-        scoreDisplay.innerHTML = ' Game over, you score is ' + score
+        checkHighScore()
         clearInterval(timerID);
+        document.removeEventListener("keyup",control);
     }
 
 }
@@ -249,4 +281,7 @@ function addScore(){
     }      
 }
 
+showHighScores()
+
 })
+
