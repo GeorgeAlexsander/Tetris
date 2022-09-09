@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const width = 10
     let timerID
     let score=0
+    let gameOverStatus = false;
 
     //ascII value of key
     const KeySpace = 32
@@ -172,7 +173,6 @@ function hardDrop(){
     undraw()
     while(!current.some(index => squares[currentPosition + index + width].classList.contains('taken'))){
         currentPosition+=width;
-        console.log(currentPosition);
     }
     draw()
     freeze();
@@ -219,6 +219,21 @@ function freeze() {
     }
 }
 
+function restartGame() {
+    for (let index = 0; index < squares.length; index++) {
+        squares[index].classList.remove('tetromino')
+        
+        if(index < (squares.length - 10)){
+            squares[index].classList.remove('taken')
+        }
+        squares[index].style.backgroundColor = ''
+        score = 0
+        scoreDisplay.innerHTML = score
+    }    
+    nextRandom = Math.floor(Math.random()*Tetrominoes.length)
+    current = Tetrominoes[random][currentRotation]
+}
+
 function pauseGame() {
     clearInterval(timerID);
     timerID = null;
@@ -227,7 +242,9 @@ function pauseGame() {
 }
 
 function StartGame() {
-    startBtn.value= "Pause";        
+    startBtn.value= "Pause";  
+    if(gameOverStatus)
+        restartGame()
     draw()
     timerID=setInterval(moveDown, 600)
     nextRandom=Math.floor(Math.random()*Tetrominoes.length)
@@ -268,7 +285,9 @@ function gameOver(){
     if(current.some(index => squares[currentPosition+index].classList.contains('taken'))) {
         checkHighScore()
         clearInterval(timerID);
-        document.removeEventListener("keyup",control);
+        console.log("GameOver");
+        startBtn.value = "Start";
+        gameOverStatus = true;
     }
 }
 
