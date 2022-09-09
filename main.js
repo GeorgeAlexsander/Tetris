@@ -24,6 +24,8 @@ function control(e){
             moveDown()
         } else if(e.keyCode === KeyUp){
             rotate()
+        } else if(e.keyCode === KeySpace){
+            hardDrop()
         }
     }
 }
@@ -165,6 +167,17 @@ function rotate(){
     draw () 
 }
 
+//descer rapidamente o Tetromino
+function hardDrop(){
+    undraw()
+    while(!current.some(index => squares[currentPosition + index + width].classList.contains('taken'))){
+        currentPosition+=width;
+        console.log(currentPosition);
+    }
+    draw()
+    freeze();
+}
+
 //Mostrar o tetromino anterior
 const displaySquares = document.querySelectorAll('.mini-grid div')
 const displayWidth = 4
@@ -216,7 +229,7 @@ function pauseGame() {
 function StartGame() {
     startBtn.value= "Pause";        
     draw()
-    timerID=setInterval(moveDown, 1000)
+    timerID=setInterval(moveDown, 600)
     nextRandom=Math.floor(Math.random()*Tetrominoes.length)
     displayShape()
     startBtn.blur();
@@ -257,7 +270,6 @@ function gameOver(){
         clearInterval(timerID);
         document.removeEventListener("keyup",control);
     }
-
 }
 
 function addScore(){
@@ -265,7 +277,7 @@ function addScore(){
         const row = [i, i+1, i+2, i+3, i+4, i+5, i+6, i+7, i+8, i+9]
     
         if(row.every(index => squares[index].classList.contains('taken'))) {
-        score +=10
+        score +=100;
         scoreDisplay.innerHTML = score
 
         row.forEach(index => {
