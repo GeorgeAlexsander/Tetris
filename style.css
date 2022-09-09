@@ -1,13 +1,33 @@
 .container {
     display: flex;
+    flex-direction: row;
     justify-content: center;
   }
+
+.container-secundario {
+    display: flex;
+    margin-left: 50px;
+    flex-direction: column;
+}
+
+.tetris-Icon {
+    width: 18%;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.tetris-Instruction {
+    margin-top: 15px;
+    margin-bottom: 20px;
+    width: 12%;
+}
 
 body {
     background-image: linear-gradient(to bottom right, rgb(3, 2, 10), rgb(89,57,166));
 }
 
 .horizontal-center {
+    margin-top: 20px;
     text-align: center;  
 }
   
@@ -20,7 +40,7 @@ h3 {
     color: black; 
     border: 2px solid rgb(106, 34, 184);
     transition-duration: 0.4s;
-  }
+}
   
 #startBtn:hover {
     background-color: rgb(106, 34, 184);
@@ -54,9 +74,7 @@ h3 {
     background-color: blue;
 }
 
-
 .mini-grid {
-    margin-left: 50px;
     width: 80px;
     height: 80px;
     display: flex;

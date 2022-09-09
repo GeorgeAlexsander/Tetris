@@ -8,9 +8,8 @@
     </head>
 <body>
 
-    <div class="horizontal-center">
-        <h3>Score:<span id="score">0</span></h3>
-        <input type="button" value="Start"  id="startBtn" /> 
+    <div class="container">
+        <img src="images/tetris-logo.png" alt="Tetris Icone" class="tetris-Icon">
     </div>
 
     <div class="espaçamento" ></div>
@@ -229,7 +228,8 @@
           <div class="taken" hidden></div>
         </div>
 
-        <div class="mini-grid">
+        <div class="container-secundario">
+            <div class="mini-grid">
                 <div></div>
                 <div></div>
                 <div></div>
@@ -247,6 +247,17 @@
                 <div></div>
                 <div></div>
             </div>
+
+            <div class="horizontal-center">
+                <input type="button" value="Start"  id="startBtn" /> 
+                <h3>Score: <span id="score">0</span></h3>
+                <h3>Record: <span id="highScores">0</span></h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <img src="images/game-instruction.png" alt="Tetris Intructions" class="tetris-Instruction">
     </div>
 </body>
 </html>
